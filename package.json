@@ -1,0 +1,25 @@
+{
+  "name": "messenger-song-of-the-day",
+  "version": "1.0.0",
+  "description": "Messenger bot to remind a group chat to add a new song every day to a spotify playlist",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olympicene/messenger-song-of-the-day.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olympicene/messenger-song-of-the-day/issues"
+  },
+  "homepage": "https://github.com/Olympicene/messenger-song-of-the-day#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "facebook-chat-api": "github:kb2ateam/facebook-chat-api",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
