@@ -21,6 +21,7 @@
     "dotenv": "^16.0.0",
     "facebook-chat-api": "github:kb2ateam/facebook-chat-api",
     "fs": "^0.0.1-security",
+    "node-cron": "^3.0.0",
     "node-fetch": "^2.6.6",
     "node-localstorage": "^2.2.1",
     "path": "^0.12.7",

@@ -4,6 +4,8 @@ const path = require("path");
 const config = require(appRoot + "/database/config.js");
 const scheduled = require(appRoot + "/src/scheduled-tasks.js");
 const login = require("facebook-chat-api");
+const cron = require('node-cron');
+
 
 require("dotenv").config();
 
@@ -37,15 +39,26 @@ login(
     }
 
     //////////////////////////////////////////////////////Initialze Program////////////////////////////////////////////////////
-    console.log(`Today is a new day, dont forget to add your song to the spotify playlist [link]`); 
-    scheduled.initSpotifyPlaylist();
+    scheduled.initSpotifyPlaylist(send);
 
     //////////////////////////////////////////////////////Repeat////////////////////////////////////////////////////
 
     let interval = 1; //minutes until repeat
 
     //////////////////////////////////////////////////////SPOTIFY
-    scheduled.checkSpotifyPlaylist(send);
+    cron.schedule('*/2 * * * *', () => {
+      scheduled.checkSpotifyPlaylist(send);
+    });
+
+    //////////////////////////////////////////////////////RESTART AT MIDNIGHT (IN THEORY)
+    cron.schedule('0 0 * * *', () => {
+      console.log(`Sheduled Restart: ${scheduled.getDate()}`)
+      process.exit(1);
+    }, {
+      scheduled: true,
+      timezone: "America/Chicago"
+    });
+
     // setInterval(() => {
     //   scheduled.checkSpotifyPlaylist(send);
     // }, interval * 60 * 1000);
