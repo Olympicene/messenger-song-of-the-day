@@ -105,3 +105,6 @@ dist
 
 # Appstate Login File
 /database/appstate.json
+/scratch
+database/config.js
+/media/*

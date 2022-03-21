@@ -5,3 +5,6 @@ exports.apiOptions = {
 };
 
 exports.DEBUG = false;
+
+exports.playlist_ID = "";
+exports.groupchat_ID = "";

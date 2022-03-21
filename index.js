@@ -1,11 +1,11 @@
+const appRoot = require("app-root-path");
 const fs = require("fs");
 const path = require("path");
-const config = require("./database/config.js");
+const config = require(appRoot + "/database/config.js");
+const scheduled = require(appRoot + "/src/scheduled-tasks.js");
 const login = require("facebook-chat-api");
-const { Console } = require("console");
 
 require("dotenv").config();
-
 
 ////////////////////////////////////////////////////LoginWithCookies////////////////////////////////////////////////////
 
@@ -20,52 +20,36 @@ login(
     ////////////////////////////////////////////////////SendHelper
     function send(contents, threadID, replyID) {
       new Promise((resolve, reject) => {
-        api.sendMessage(contents, threadID, (err) => {
+        api.sendMessage(
+          contents,
+          threadID,
+          (err) => {
             if (err) {
               reject(err);
               return;
             }
 
-            resolve(`message sent`);
-          }, replyID);
+            resolve();
+          },
+          replyID
+        );
       });
     }
 
-    ////////////////////////////////////////////////////ErrorHelper
-    function error(errorMessage, threadID, replyID) {
-      contents = {};
-      contents.body = errorMessage;
-      console.log(errorMessage);
-    
-      new Promise((resolve, reject) => {
-        api.sendMessage(contents, threadID, (err) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-    
-          resolve();
-        }, replyID);
-      });
-    }
+    //////////////////////////////////////////////////////Initialze Program////////////////////////////////////////////////////
+    console.log(`Today is a new day, dont forget to add your song to the spotify playlist [link]`); 
+    scheduled.initSpotifyPlaylist();
 
-    // ////////////////////////////////////////////////////Restart_Notification////////////////////////////////////////////////////
-    // console.log(`Today is a new day, dont forget to add your song to the spotify playlist [link]`); // probably only send if it around midnight
+    //////////////////////////////////////////////////////Repeat////////////////////////////////////////////////////
 
-    // ////////////////////////////////////////////////////Repeat////////////////////////////////////////////////////
+    let interval = 1; //minutes until repeat
 
-    // let interval = 1; //minutes until repeat
-
+    //////////////////////////////////////////////////////SPOTIFY
+    scheduled.checkSpotifyPlaylist(send);
     // setInterval(() => {
-    //     let date_ob = new Date();
-    //     let date = ("0" + date_ob.getDate()).slice(-2);
-    //     let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    //     let year = date_ob.getFullYear();
-    //     let hours = date_ob.getHours();
-    //     let minutes = date_ob.getMinutes();
-    //     let seconds = date_ob.getSeconds();
-    //     console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
+    //   scheduled.checkSpotifyPlaylist(send);
     // }, interval * 60 * 1000);
-
   }
 );
+
+//temporary
